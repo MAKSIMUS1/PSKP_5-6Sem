@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>nodejs</title>
+</head>
+<body>
+    <h1>Fetch-name</h1>
+    <h2 id="name"></h2>
+
+    <script>
+        let el = document.getElementById('name');
+        fetch("http://localhost:5000/api/name")
+            .then(response => response.text())
+            .then(responseText => {
+                el.innerHTML = responseText
+            });
+    </script>
+</body>
+</html>

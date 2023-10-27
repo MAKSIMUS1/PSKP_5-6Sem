@@ -1,0 +1,17 @@
+{
+  "name": "m06_kmo",
+  "version": "1.0.4",
+  "description": "send message",
+  "main": "m06_KMO.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "m06_kmo": "^1.0.1",
+    "nodemailer": "^6.9.6",
+    "nodemailer-smtp-transport": "^2.7.4"
+  },
+  "devDependencies": {}
+}
