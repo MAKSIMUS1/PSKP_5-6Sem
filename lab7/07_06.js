@@ -16,7 +16,6 @@ http.createServer(function(request, response) {
         });
 }).listen(5000);
 
-console.log('Server running at http://localhost:5000/');
 
 //--------- client ------------------------
 let bound = 'kmo04-kmo04-kmo04';

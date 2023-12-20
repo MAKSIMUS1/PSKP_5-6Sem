@@ -69,7 +69,6 @@ const req = http.request(options, (res) => {
             if(err) console.log('xml parse error');
             else{
                 console.log('str =', str);
-                console.log('str.result =', str.result);
             }
         })
     });
