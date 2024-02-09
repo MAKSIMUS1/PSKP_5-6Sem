@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>08-01 ws</title>
+</head>
+<body>
+    <h1>08-01 WebSocket</h1>
+    <br />
+    <script>
+        let k = 0;
+        function startWS(){
+            let socket = new WebSocket('ws:/localhost:4000/wsserver');
+
+            socket.onopen = () => {
+                console.log('socket.onopen');
+                setTimeout(()=>{socket.close()},25000);
+                setInterval(()=>{socket.send(++k);}, 3000);
+            };
+            socket.onclose = (e) => { console.log('socket.onclose', e);};
+            socket.onmessage = (e) => {console.log('socket.onmessage', e.data)};
+            socket.onerror = function(error) {alert("Ошибка " + error.message);};
+        };
+    </script>
+    <button onclick="startWS()">startWS</button>
+</body>
+</html>
