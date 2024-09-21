@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 11</title>
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="get_data">
+        <button onclick="get()">GET</button>
+    </div>
+    <div class="result"></div>
+    <br />
+
+    <div class="add_update_data">
+        <br />
+        INSERT: <br />
+        <br />
+        <label>
+            PULPIT:
+            <input type="text" name="pulpit" id="pulpit" required />
+        </label><br />
+        <label>
+            PULPIT NAME:
+            <input type="text"
+                   name="pulpit_name"
+                   id="pulpit_name"
+                   required />
+        </label><br />
+        <label>
+            FACULTY:
+            <input type="text" name="faculty" id="faculty" required />
+        </label><br />
+        <button onclick="post()">POST</button>
+    </div>
+
+    <div class="update-data">
+        <br />
+        UPDATE: <br />
+        <br />
+        <label>
+            PULPIT:
+            <input type="text"
+                   name="pulpit_update"
+                   id="pulpit_update"
+                   required />
+        </label><br />
+        <button onclick="getOne()">GET</button>
+        <div class="update_data"></div>
+        <br />
+        <label>
+            ROW_NAME:
+            <input type="text" name="row_name" id="row_name" required />
+        </label><br />
+        <label>
+            VALUE:
+            <input type="text"
+                   name="value_name"
+                   id="value_name"
+                   required />
+        </label><br />
+        <div class="update_data"></div>
+
+        <button onclick="put()">PUT</button>
+    </div>
+    <br />
+
+    <div class="delete_data">
+        <br />
+        DELETE: <br />
+        <br />
+        <label>
+            PULPIT: <input type="text" name="pulpit" id="pulpit_del" required />
+        </label>
+        <br />
+        <button onclick="del()">DELETE</button>
+    </div>
+    <br />
+</div>
+<script>
+
+    function JSONarrayToString(json) {
+        let str = "";
+        for (let obj of json) {
+            str += JSON.stringify(obj) + "<br>";
+        }
+        return str;
+    }
+
+    function get() { //получить данные
+        fetch("http://localhost:3000/api/pulpits", { method: "GET" })
+            .then((response) => response.json())
+            .then((data) => {
+                document.querySelector(".result").innerHTML =
+                    JSONarrayToString(data);
+            })
+            .catch((err) => console.log(err));
+    }
+
+    function post() { //добавить новые
+        const pulpit = document.querySelector("#pulpit").value;
+        const pulpitName = document.querySelector("#pulpit_name").value;
+        const faculty = document.querySelector("#faculty").value;
+        fetch("http://localhost:3000/api/pulpits", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", Accept: "application/json",},
+            body: JSON.stringify({
+                ["PULPIT"]: pulpit,
+                ["PULPIT_NAME"]: pulpitName,
+                ["FACULTY"]: faculty,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                document.querySelector(".result").innerHTML = JSON.stringify(data);
+            })
+            .catch((err) => console.log(err));
+    }
+
+    function getOne() { //найти
+        const pulpit = document.querySelector("#pulpit_update").value;
+        fetch("http://localhost:3000/api/pulpits", { method: "GET" })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(pulpit);
+                console.log(data);
+                const result = data.find((item) => item["PULPIT"].trim() == pulpit);
+                document.querySelector(".update_data").innerHTML = JSON.stringify(result);
+            })
+            .catch((err) => console.log(err));
+    }
+
+    function put() { //обновить
+        const pulpit = document.querySelector("#pulpit_update").value;
+        const row = document.querySelector("#row_name").value;
+        const value = document.querySelector("#value_name").value;
+        fetch("http://localhost:3000/api/pulpits", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json",},
+            body: JSON.stringify({
+                ["PULPIT"]: pulpit,
+                [row]: value,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                document.querySelector(".result").innerHTML = JSON.stringify(data);
+            })
+            .catch((err) => console.log(err));
+    }
+
+    function del() { //удалить
+        const pulpit = document.querySelector("#pulpit_del").value;
+        fetch(`http://localhost:3000/api/pulpits/${pulpit}`, {
+            method: "DELETE",
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                document.querySelector(".result").innerHTML = data;
+            })
+            .catch((err) => console.log(err));
+    }
+</script>
+</body>
+</html>
